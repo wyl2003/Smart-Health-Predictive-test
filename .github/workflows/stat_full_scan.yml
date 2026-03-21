@@ -1,4 +1,4 @@
-name: Security Full Scan
+name: CodeQL Full Scan
 
 on:
   push:
@@ -11,16 +11,13 @@ permissions:
   security-events: write
 
 jobs:
-  full_scan:
+  codeql:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # -------------------------
-      # CodeQL Full Scan
-      # -------------------------
       - name: Initialize CodeQL
         uses: github/codeql-action/init@v4
         with:
@@ -29,17 +26,3 @@ jobs:
 
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v4
-
-      # -------------------------
-      # Bearer Full Scan
-      # -------------------------
-      - name: Bearer Full Scan
-        uses: bearer/bearer-action@v2
-        with:
-          format: sarif
-          output: bearer-results.sarif
-
-      - name: Upload Bearer SARIF
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: bearer-results.sarif
